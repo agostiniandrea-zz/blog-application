@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import loading from './loading';
+import posts from './posts';
 
 let combinedObj = {
-    loading
+    posts
 };
 
 const rootReducer = combineReducers(combinedObj);
