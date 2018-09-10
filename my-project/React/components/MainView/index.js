@@ -19,7 +19,13 @@ class MainView extends Component {
     this.setState({ opened: true });
   }
   hideNewPost() {
-    this.setState({ opened: false });
+    this.setState({
+      opened: false,
+      userId: 1,
+      id: this.props.posts.length + 1,
+      body: '',
+      title: ''
+    });
   }
   addPostFunc() {
     this.props.addPost({
