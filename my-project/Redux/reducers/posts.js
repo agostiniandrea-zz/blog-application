@@ -48,7 +48,7 @@ export default function reducer(state = -1, action) {
                 for (let i = 0; i < action.payload.length; i++) {
                     newPosts.push({
                         ...action.payload[i],
-                        id: i + (newState.length) + 1
+                        id: i + (newState.length ? newState[newState.length - 1]['id'] : 0) + 1
                     });
                 }
                 newState = newState.concat(newPosts);

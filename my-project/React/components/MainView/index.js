@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Button, StyleSheet, Text, TextInput, ScrollView, View } from 'react-native';
+import { Button, ScrollView, StyleSheet, Text, TextInput, ToastAndroid, View } from 'react-native';
 import { connect } from 'react-redux';
-import { addPost, deletePost, editPost, getPosts } from '../../../Redux/reducers/posts';
+import { addPost, deletePost, editPost } from '../../../Redux/reducers/posts';
 import PostItem from '../PostItem/index';
 
 class MainView extends Component {
@@ -30,12 +30,21 @@ class MainView extends Component {
     });
     this.hideNewPost();
   }
+  createPostFunc() {
+    ToastAndroid.show(`Opening form for creating new post`, ToastAndroid.SHORT);
+    this.showNewPost();
+  }
+  addNewPostFunc() {
+    ToastAndroid.show(`Creating new post`, ToastAndroid.SHORT);
+    this.addPostFunc();
+  }
   render() {
     return (
       <ScrollView style={styles.container}>
         <Text style={styles.text}>Blog Application</Text>
         <Button
-          onPress={() => this.showNewPost()}
+          disabled={this.state.opened}
+          onPress={this.createPostFunc.bind(this)}
           title="Create new post"
         />
         {this.state.opened && <View>
@@ -52,7 +61,11 @@ class MainView extends Component {
             placeholder="Insert body"
           />
           <Button
-            onPress={() => this.addPostFunc()}
+            onPress={this.hideNewPost.bind(this)}
+            title="Close form"
+          />
+          <Button
+            onPress={this.addNewPostFunc.bind(this)}
             title="Load new post"
           />
         </View>}

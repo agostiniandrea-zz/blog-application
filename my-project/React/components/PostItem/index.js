@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Form, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Button, StyleSheet, Text, TextInput, ToastAndroid, View } from 'react-native';
 import { connect } from 'react-redux';
 import { deletePost, editPost } from '../../../Redux/reducers/posts';
 
@@ -20,6 +20,19 @@ class PostItem extends Component {
   closeEdit() {
     this.setState({ opened: false });
   }
+  saveEditedPost() {
+    ToastAndroid.show(`Saving edited post with ID: ${this.state.id}`, ToastAndroid.SHORT);
+    this.props.editPost({ userId: this.state.userId, id: this.state.id, title: this.state.title, body: this.state.body });
+    this.closeEdit();
+  }
+  deletePostFunc() {
+    ToastAndroid.show(`Deleting post with ID: ${this.state.id}`, ToastAndroid.SHORT);
+    this.props.deletePost(this.state.id);
+  }
+  editingPostFunc() {
+    ToastAndroid.show(`Opening edit for post with ID: ${this.state.id}`, ToastAndroid.SHORT);
+    this.openEdit();
+  }
   render() {
     return (
       <View style={styles.post}>
@@ -35,22 +48,22 @@ class PostItem extends Component {
             style={styles.textinput}
             value={this.state.body}
           />}
-        <Text>
-          {`${this.state.id}. ${this.state.title}`}
-        </Text>
-        <Button
-          onPress={() => this.openEdit()}
+        {!this.state.opened && <Text>ID</Text>}
+        {!this.state.opened && <Text style={styles.marginBottom20}>{`${this.state.id}`}</Text>}
+        {!this.state.opened && <Text>TITLE</Text>}
+        {!this.state.opened && <Text style={styles.marginBottom20}>{`${this.state.title}`}</Text>}
+        {!this.state.opened && <Text>BODY</Text>}
+        {!this.state.opened && <Text>{`${this.state.body}`}</Text>}
+        {!this.state.opened && <Button
+          onPress={this.editingPostFunc.bind(this)}
           title="Edit"
-        />
+        />}
         {this.state.opened && <Button
-          onPress={() => {
-            this.props.editPost({ userId: this.state.userId, id: this.state.id, title: this.state.title, body: this.state.body });
-            this.closeEdit();
-          }}
+          onPress={this.saveEditedPost.bind(this)}
           title="Save content edited"
         />}
         <Button
-          onPress={() => this.props.deletePost(this.state.id)}
+          onPress={this.deletePostFunc.bind(this)}
           title="Delete"
         />
       </View>
@@ -61,6 +74,9 @@ class PostItem extends Component {
 const styles = StyleSheet.create({
   post: {
     marginBottom: 30
+  },
+  marginBottom20: {
+    marginBottom: 20
   }
 });
 
