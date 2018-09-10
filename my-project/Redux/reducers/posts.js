@@ -1,8 +1,7 @@
 import _ from 'lodash';
 import Api from '../../api';
-import axios from 'axios';
 
-const initState = [
+/* const initState = [
     {
         userId: 1,
         id: 1,
@@ -21,7 +20,7 @@ const initState = [
         title: 'ea molestias quasi exercitationem repellat qui ipsa sit aut',
         body: 'et iusto sed quo iure\nvoluptatem occaecati omnis eligendi aut ad\nvoluptatem doloribus vel accusantium quis pariatur\nmolestiae porro eius odio et labore et velit aut'
     }
-];
+]; */
 
 export const ADD = 'my-project/POSTS/ADD';
 export const EDIT = 'my-project/POSTS/EDIT';
@@ -29,7 +28,7 @@ export const GET = 'my-project/POSTS/GET';
 export const SET = 'my-project/POSTS/SET';
 export const DELETE = 'my-project/POSTS/DELETE';
 
-export default function reducer(state = initState, action) {
+export default function reducer(state = -1, action) {
     switch (action.type) {
         case ADD: {
             return addPostFunc(state, action.payload);
@@ -37,26 +36,12 @@ export default function reducer(state = initState, action) {
         case EDIT: {
             return editPostFunc(state, action.payload);
         }
-        case GET: {
-            return initState;
-            /* axios.get('https://jsonplaceholder.typicode.com/posts')
-                .then((response) => {
-                    if (response && response.status == 200) {
-                        setPostFunc(response.data)
-                    } else {
-                        return setPosts([]);
-                    }
-                }).catch((error) => {
-                    console.log(error);
-                    return state;
-                }); */
-        }
         case DELETE: {
             return deletePostFunc(state, action.payload);
         }
         case SET: {
-            console.log('set');
-            return setPostFunc(state, action.payload);
+            state = [];
+            return action.payload;
         }
         default:
             return state;
@@ -69,10 +54,6 @@ export const addPost = (payload) => {
 
 export const editPost = (payload) => {
     return { type: EDIT, payload };
-};
-
-export const getPosts = (payload) => {
-    return { type: GET, payload };
 };
 
 export const deletePost = (payload) => {
@@ -102,12 +83,12 @@ function deletePostFunc(state, payload) {
     return newState;
 }
 
-function getPostFunc(state, payload) {
-    /* return (dispatch, getState) => {
-        console.log('reducer');
+export const getPosts = (/* state */) => {
+    return (dispatch/* , getState */) => {
         return new Promise((resolve) => {
             Api.getPosts()
                 .then((resp) => {
+                    console.log(resp);
                     dispatch(setPosts(resp));
                     resolve();
                 })
@@ -115,22 +96,5 @@ function getPostFunc(state, payload) {
                     reject(e);
                 });
         })
-    }; */
-    /* return (dispatch, getState) => {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                dispatch({
-                    type: COUNTER_DOUBLE_ASYNC,
-                    payload: getState().counter
-                })
-                resolve()
-            }, 200)
-        })
-    } */
-}
-
-function setPostFunc(state, payload) {
-    let newState = _.cloneDeep(state);
-    newState = newState.concat(payload);
-    return newState;
+    };
 }

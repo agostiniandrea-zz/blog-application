@@ -57,6 +57,7 @@ class MainView extends Component {
           />
         </View>}
         <Text style={styles.listTitle}>List</Text>
+        {this.props.posts === -1 && <Text>Loading...</Text>}
         {this.props.posts.length === 0 && <Text>Empty</Text>}
         {this.props.posts && this.props.posts.length > 0 && this.props.posts.map((post) => <PostItem key={post.id} {...post} />)}
       </ScrollView>
@@ -108,10 +109,10 @@ const mapDispatchToProps = (dispatch) => {
     },
     editPost: (post) => {
       dispatch(editPost(post));
-    },
+    }/* ,
     getPosts: () => {
       dispatch(getPosts());
-    }
+    } */
   };
 };
 

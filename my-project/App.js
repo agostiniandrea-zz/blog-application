@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { applyMiddleware, createStore, compose } from 'redux';
+import { getPosts } from './Redux/reducers/posts';
 import thunk from 'redux-thunk';
 
 if (module.hot) {
@@ -19,6 +20,7 @@ const store = createStore(
 import reducer from './Redux/reducers/';
 import MainView from './React/components/MainView/';
 
+store.dispatch(getPosts());
 
 export default class App extends Component {
   render() {
