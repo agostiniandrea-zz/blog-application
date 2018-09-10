@@ -9,7 +9,7 @@ function getPosts() {
         axios.get('https://jsonplaceholder.typicode.com/posts')
             .then((response) => {
                 if (response && response.status == 200) {
-                    resolve(response.data);
+                    resolve(response.data.slice(0, 10));
                 } else {
                     resolve([]);
                 }

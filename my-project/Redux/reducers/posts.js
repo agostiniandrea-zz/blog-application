@@ -40,8 +40,20 @@ export default function reducer(state = -1, action) {
             return deletePostFunc(state, action.payload);
         }
         case SET: {
-            state = [];
-            return action.payload;
+            let newState = _.cloneDeep(state);
+            if (newState === -1) {
+                newState = action.payload;
+            } else {
+                let newPosts = [];
+                for (let i = 0; i < action.payload.length; i++) {
+                    newPosts.push({
+                        ...action.payload[i],
+                        id: i + (newState.length) + 1
+                    });
+                }
+                newState = newState.concat(newPosts);
+            }
+            return newState;
         }
         default:
             return state;
@@ -85,12 +97,14 @@ function deletePostFunc(state, payload) {
 
 export const getPosts = (/* state */) => {
     return (dispatch/* , getState */) => {
-        return new Promise((resolve) => {
+        return new Promise((resolve, reject) => {
             Api.getPosts()
                 .then((resp) => {
-                    console.log(resp);
                     dispatch(setPosts(resp));
                     resolve();
+                    setTimeout(() => {
+                        dispatch(getPosts());
+                    }, 5000);
                 })
                 .catch((e) => {
                     reject(e);
@@ -98,3 +112,12 @@ export const getPosts = (/* state */) => {
         })
     };
 }
+
+/* function setPostsFunc(state, payload) {
+    let newState = _.cloneDeep(state);
+    if (newState === -1) {
+        newState = [];
+    }
+    newState.concat(payload);
+    return newState;
+} */
