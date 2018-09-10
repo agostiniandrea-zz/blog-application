@@ -112,12 +112,3 @@ export const getPosts = (/* state */) => {
         })
     };
 }
-
-/* function setPostsFunc(state, payload) {
-    let newState = _.cloneDeep(state);
-    if (newState === -1) {
-        newState = [];
-    }
-    newState.concat(payload);
-    return newState;
-} */

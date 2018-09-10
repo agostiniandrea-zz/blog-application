@@ -122,10 +122,7 @@ const mapDispatchToProps = (dispatch) => {
     },
     editPost: (post) => {
       dispatch(editPost(post));
-    }/* ,
-    getPosts: () => {
-      dispatch(getPosts());
-    } */
+    }
   };
 };
 
